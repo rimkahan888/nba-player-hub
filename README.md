@@ -4,7 +4,7 @@
 
 A visual NBA player hub built around original player artwork, with each player's bio, stats and contract one tap away. Built with .NET 10, ASP.NET Core and Blazor.
 
-> **Status:** early development. The solution skeleton, domain logic, CI, the Blazor Web App shell and a seed import and the first player profile (API and page) are in place; the first end-to-end slice (one player profile, deployed) is next.
+> **Status:** early development. The first player profile works end to end locally: seed data, database, API and page, with CI checking formatting and running the tests. Deploying it is next.
 
 <!-- Screenshot or GIF goes here once the gallery exists. -->
 
