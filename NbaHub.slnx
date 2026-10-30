@@ -1,0 +1,21 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="CLAUDE.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/NbaHub.Application/NbaHub.Application.csproj" />
+    <Project Path="src/NbaHub.Contracts/NbaHub.Contracts.csproj" />
+    <Project Path="src/NbaHub.Domain/NbaHub.Domain.csproj" />
+    <Project Path="src/NbaHub.Infrastructure/NbaHub.Infrastructure.csproj" />
+    <Project Path="src/NbaHub.Web/NbaHub.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/NbaHub.Domain.Tests/NbaHub.Domain.Tests.csproj" />
+    <Project Path="tests/NbaHub.Web.IntegrationTests/NbaHub.Web.IntegrationTests.csproj" />
+  </Folder>
+</Solution>

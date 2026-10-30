@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>NbaHub.Application</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NbaHub.Domain\NbaHub.Domain.csproj" />
+    <ProjectReference Include="..\NbaHub.Contracts\NbaHub.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

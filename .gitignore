@@ -1,0 +1,44 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+publish/
+
+# Test results and coverage
+TestResults/
+[Tt]est[Rr]esult*/
+coverage*.json
+coverage*.xml
+*.coverage
+*.trx
+
+# IDEs and editors
+.vs/
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.user
+*.suo
+*.userprefs
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets and local settings (use dotnet user-secrets instead)
+.env
+.env.*
+appsettings.*.local.json
+*.pfx
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Local art working files (final art goes to object storage, not git)
+art-source/

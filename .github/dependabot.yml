@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      test-packages:
+        patterns:
+          - "xunit*"
+          - "Microsoft.NET.Test.Sdk"
+          - "coverlet*"
+          - "Shouldly"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
