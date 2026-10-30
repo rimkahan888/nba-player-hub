@@ -31,6 +31,26 @@ public class TeamTests
     }
 
     [Fact]
+    public void UpdateDetails_changes_details_but_keeps_abbreviation()
+    {
+        var team = new Team("Seattle", "SuperSonics", "OKC", Conference.West, "Pacific");
+
+        team.UpdateDetails("Oklahoma City", "Thunder", Conference.West, "Northwest");
+
+        team.FullName.ShouldBe("Oklahoma City Thunder");
+        team.Division.ShouldBe("Northwest");
+        team.Abbreviation.ShouldBe("OKC");
+    }
+
+    [Fact]
+    public void UpdateDetails_throws_when_name_is_missing()
+    {
+        var team = new Team("Boston", "Celtics", "BOS", Conference.East, "Atlantic");
+
+        Should.Throw<ArgumentException>(() => team.UpdateDetails("Boston", "", Conference.East, "Atlantic"));
+    }
+
+    [Fact]
     public void SetPrimaryColour_stores_hex_in_uppercase()
     {
         var team = new Team("Boston", "Celtics", "BOS", Conference.East, "Atlantic");

@@ -45,6 +45,15 @@ public sealed partial class Team
 
     public IReadOnlyCollection<Players.Player> Players => _players;
 
+    /// <summary>Updates the details that can change. The abbreviation identifies the team and stays fixed.</summary>
+    public void UpdateDetails(string city, string name, Conference conference, string division)
+    {
+        City = Required(city, nameof(city));
+        Name = Required(name, nameof(name));
+        Conference = conference;
+        Division = Required(division, nameof(division));
+    }
+
     public void SetPrimaryColour(string? hexColour)
     {
         if (hexColour is not null && !HexColourPattern().IsMatch(hexColour))

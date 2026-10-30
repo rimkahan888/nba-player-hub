@@ -73,6 +73,7 @@ dotnet format NbaHub.slnx                  # fix formatting
 dotnet tool restore                        # installs dotnet-ef from dotnet-tools.json
 dotnet ef migrations add <Name> --project src/NbaHub.Infrastructure --startup-project src/NbaHub.Web --output-dir Persistence/Migrations
 dotnet ef database update --project src/NbaHub.Infrastructure --startup-project src/NbaHub.Web
+dotnet run --project src/NbaHub.Web -- --seed   # load seed/*.json into the database
 ```
 
 ## Working style
@@ -92,11 +93,11 @@ Done:
 - GitHub Actions CI building and testing on every push
 - Blazor Web App (auto render mode) in `NbaHub.Web` with `NbaHub.Web.Client`; template Counter page kept as an interactivity smoke test until real pages exist
 - EF Core + Npgsql with `Team` and `Player` entities, `NbaHubDbContext` and the `InitialCreate` migration; a model test fails if a migration is missing
+- `seed/teams.json` and `seed/players.json` (Luka Dončić, Lakers) with `ISeedImporter`, run by `--seed`; importer tests use Testcontainers PostgreSQL via `PostgresFixture` in `NbaHub.Infrastructure.Tests`
 
 Next (thin slice: one player, end to end, deployed):
 
-1. Add a `seed/players.json` with one player and an importer that loads it.
-2. Add `GET /api/players/{slug}` and a profile page showing one player with placeholder art.
-3. Add Testcontainers PostgreSQL integration tests for the endpoint.
-4. Containerise with `dotnet publish /t:PublishContainer` and deploy to Fly.io or Railway; add the deploy job to CI.
-5. Add `dotnet format --verify-no-changes` to CI.
+1. Add `GET /api/players/{slug}` and a profile page showing one player with placeholder art.
+2. Add Testcontainers PostgreSQL integration tests for the endpoint (reuse the `PostgresFixture` pattern).
+3. Containerise with `dotnet publish /t:PublishContainer` and deploy to Fly.io or Railway; add the deploy job to CI.
+4. Add `dotnet format --verify-no-changes` to CI.

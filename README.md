@@ -4,7 +4,7 @@
 
 A visual NBA player hub built around original player artwork, with each player's bio, stats and contract one tap away. Built with .NET 10, ASP.NET Core and Blazor.
 
-> **Status:** early development. The solution skeleton, domain logic, CI, the Blazor Web App shell and the first database migration (teams and players) are in place; the first end-to-end slice (one player profile, deployed) is next.
+> **Status:** early development. The solution skeleton, domain logic, CI, the Blazor Web App shell and the first database migration and a seed import with one player are in place; the first end-to-end slice (one player profile, deployed) is next.
 
 <!-- Screenshot or GIF goes here once the gallery exists. -->
 
@@ -50,6 +50,7 @@ tests/
   NbaHub.Domain.Tests/
   NbaHub.Infrastructure.Tests/
   NbaHub.Web.IntegrationTests/
+seed/                     Hand-maintained data: teams, player bios
 docs/                     Brief, technical design, ADRs, ideas backlog
 ```
 
@@ -64,7 +65,9 @@ dotnet build NbaHub.slnx
 dotnet test NbaHub.slnx
 ```
 
-The tests don't need a database. To run the app against one:
+Most tests need nothing else. The importer tests start PostgreSQL in Docker through Testcontainers, so Docker must be running.
+
+To run the app against a database:
 
 ```bash
 # 1. Start PostgreSQL (choose your own local password)
@@ -81,7 +84,10 @@ dotnet user-secrets set ConnectionStrings:NbaHub \
 dotnet tool restore
 dotnet ef database update --project src/NbaHub.Infrastructure --startup-project src/NbaHub.Web
 
-# 4. Run the app
+# 4. Load the seed data (safe to run again)
+dotnet run --project src/NbaHub.Web -- --seed
+
+# 5. Run the app
 dotnet run --project src/NbaHub.Web
 ```
 
