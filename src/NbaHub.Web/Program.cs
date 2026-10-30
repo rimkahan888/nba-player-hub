@@ -1,8 +1,8 @@
 using NbaHub.Application;
-using NbaHub.Application.Seeding;
 using NbaHub.Infrastructure;
 using NbaHub.Web.Components;
 using NbaHub.Web.Endpoints;
+using NbaHub.Web.Maintenance;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,12 +40,10 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(NbaHub.Web.Client._Imports).Assembly);
 
-// `dotnet run --project src/NbaHub.Web -- --seed` loads the seed files into the database and exits.
-if (args.Contains("--seed"))
+// `--migrate` and/or `--seed` run a maintenance task and exit instead of starting the server.
+if (MaintenanceCommands.IsRequested(args))
 {
-    await using var scope = app.Services.CreateAsyncScope();
-    var result = await scope.ServiceProvider.GetRequiredService<ISeedImporter>().ImportAsync(CancellationToken.None);
-    app.Logger.LogInformation("Seed import finished: {Result}", result);
+    await MaintenanceCommands.RunAsync(app, args, CancellationToken.None);
     return;
 }
 

@@ -29,8 +29,8 @@ Planned modules after version 1: a salary cap trade machine and a digital tradin
 | Data | PostgreSQL, EF Core |
 | Player data | [balldontlie API](https://docs.balldontlie.io/), synced nightly; salaries seeded |
 | Testing | xUnit, Shouldly, `WebApplicationFactory`, Testcontainers |
-| CI/CD | GitHub Actions |
-| Hosting | Fly.io or Railway (container) |
+| CI/CD | GitHub Actions: format check, tests, image publish, deploy |
+| Hosting | Railway (container image from GitHub Container Registry) |
 
 ## Architecture
 
