@@ -87,13 +87,13 @@ Done:
 - `Height` and `PlayerAge` domain logic with unit tests
 - `/health` endpoint with an integration test
 - GitHub Actions CI building and testing on every push
+- Blazor Web App (auto render mode) in `NbaHub.Web` with `NbaHub.Web.Client`; template Counter page kept as an interactivity smoke test until real pages exist
 
 Next (thin slice: one player, end to end, deployed):
 
-1. Add the Blazor Web App to `NbaHub.Web` and create `NbaHub.Web.Client` (auto render mode). Easiest route: generate a reference app with `dotnet new blazor --interactivity Auto -o temp` and move the relevant files across, keeping the existing project names.
-2. Add EF Core + Npgsql, the `Team` and `Player` entities, a `DbContext` and the first migration.
-3. Add a `seed/players.json` with one player and an importer that loads it.
-4. Add `GET /api/players/{slug}` and a profile page showing one player with placeholder art.
-5. Add Testcontainers PostgreSQL integration tests for the endpoint.
-6. Containerise with `dotnet publish /t:PublishContainer` and deploy to Fly.io or Railway; add the deploy job to CI.
-7. Add `dotnet format --verify-no-changes` to CI.
+1. Add EF Core + Npgsql, the `Team` and `Player` entities, a `DbContext` and the first migration.
+2. Add a `seed/players.json` with one player and an importer that loads it.
+3. Add `GET /api/players/{slug}` and a profile page showing one player with placeholder art.
+4. Add Testcontainers PostgreSQL integration tests for the endpoint.
+5. Containerise with `dotnet publish /t:PublishContainer` and deploy to Fly.io or Railway; add the deploy job to CI.
+6. Add `dotnet format --verify-no-changes` to CI.

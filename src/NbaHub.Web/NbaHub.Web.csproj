@@ -3,11 +3,17 @@
   <PropertyGroup>
     <RootNamespace>NbaHub.Web</RootNamespace>
     <UserSecretsId>nbahub-web-6f1c2a4e</UserSecretsId>
+    <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NbaHub.Application\NbaHub.Application.csproj" />
     <ProjectReference Include="..\NbaHub.Infrastructure\NbaHub.Infrastructure.csproj" />
+    <ProjectReference Include="..\NbaHub.Web.Client\NbaHub.Web.Client.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,6 +13,7 @@
     <Project Path="src/NbaHub.Domain/NbaHub.Domain.csproj" />
     <Project Path="src/NbaHub.Infrastructure/NbaHub.Infrastructure.csproj" />
     <Project Path="src/NbaHub.Web/NbaHub.Web.csproj" />
+    <Project Path="src/NbaHub.Web.Client/NbaHub.Web.Client.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/NbaHub.Domain.Tests/NbaHub.Domain.Tests.csproj" />

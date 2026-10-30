@@ -52,7 +52,7 @@ One solution (`NbaHub.slnx`), six source projects plus test projects. Dependenci
 | `NbaHub.Application` | Queries and commands, interfaces such as `IPlayerDataProvider` and `IArtStorage` | Domain, Contracts |
 | `NbaHub.Infrastructure` | EF Core `DbContext` and migrations, balldontlie client, seed importers, art storage | Application |
 | `NbaHub.Web` | Host: Blazor server side, minimal API endpoints, background sync, DI wiring | All of the above |
-| `NbaHub.Web.Client` | Interactive WebAssembly components that call the API over `HttpClient` (not created yet) | Contracts |
+| `NbaHub.Web.Client` | Interactive WebAssembly components that call the API over `HttpClient` | Contracts |
 | `tests/*` | Domain, Application, API integration and component tests | The project under test |
 
 **Trade-off:** four layers is more ceremony than a small app strictly needs. It's worth it here because interviewers often ask about separation of concerns, and it lets the trade machine slot in later as a new set of Application features.
