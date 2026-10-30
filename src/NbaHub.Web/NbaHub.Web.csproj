@@ -6,6 +6,16 @@
     <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
   </PropertyGroup>
 
+  <PropertyGroup Label="Container">
+    <!-- Built with `dotnet publish /t:PublishContainer`; CI sets the registry and tags. -->
+    <ContainerRepository>nba-player-hub</ContainerRepository>
+  </PropertyGroup>
+
+  <ItemGroup Label="Container">
+    <!-- Links the image on GitHub's container registry to this repository. -->
+    <ContainerLabel Include="org.opencontainers.image.source" Value="https://github.com/rimkahan888/nba-player-hub" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
     <!-- Lets `dotnet ef` use the web app as the startup project; not shipped at runtime. -->

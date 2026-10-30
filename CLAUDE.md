@@ -74,6 +74,7 @@ dotnet tool restore                        # installs dotnet-ef from dotnet-tool
 dotnet ef migrations add <Name> --project src/NbaHub.Infrastructure --startup-project src/NbaHub.Web --output-dir Persistence/Migrations
 dotnet ef database update --project src/NbaHub.Infrastructure --startup-project src/NbaHub.Web
 dotnet run --project src/NbaHub.Web -- --seed   # load seed/*.json into the database
+dotnet run --project src/NbaHub.Web -- --migrate --seed   # what Railway's pre-deploy command runs
 ```
 
 ## Working style
@@ -98,4 +99,4 @@ Done:
 
 Next (thin slice: one player, end to end, deployed):
 
-1. Containerise with `dotnet publish /t:PublishContainer` and deploy to Fly.io or Railway; add the deploy job to CI.
+1. Deploy to Railway (ADR 0008). The container build (`PublishContainer`), the `--migrate` command and the CI `publish-image` and `deploy` jobs are written. What's left is the one-time Railway setup, the `RAILWAY_TOKEN` secret, making the GHCR package public, and the first live deploy. Then add the live URL to the README.

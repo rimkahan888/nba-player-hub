@@ -13,7 +13,7 @@ flowchart TB
     Browser["Browser<br/>Blazor WebAssembly client"]
     GHA["GitHub Actions<br/>build, test, deploy"]
 
-    subgraph Container["NbaHub.Web container (Fly.io or Railway)"]
+    subgraph Container["NbaHub.Web container (Railway)"]
         Blazor["Blazor Web App<br/>server rendering + interactive components"]
         Api["Minimal API (/api)<br/>route groups, TypedResults, output caching"]
         App["Application + Domain<br/>queries, commands, rules (age, payroll)"]
@@ -174,17 +174,30 @@ Target **.NET 10 (LTS)**, supported until 14 November 2028. .NET 9 reaches end o
 **Pull request pipeline (GitHub Actions):**
 
 1. Restore and build with warnings as errors.
-2. Check formatting with `dotnet format --verify-no-changes` (to add).
-3. Run all tests, including Testcontainers integration tests once the database exists.
+2. Check formatting with `dotnet format --verify-no-changes`.
+3. Run all tests, including the Testcontainers PostgreSQL tests.
 4. Upload test results.
 
-**Main branch pipeline (to add with the first deploy):**
+**Main branch pipeline:** see [ADR 0008](adr/0008-host-on-fly-or-railway.md) for why it works this way.
 
 1. Everything above.
-2. Build a container image with `dotnet publish /t:PublishContainer`.
-3. Run EF Core migrations using a migrations bundle as a separate step.
-4. Deploy the image to Fly.io or Railway.
-5. Smoke test `/health` on the live URL.
+2. `publish-image`: build the image with `dotnet publish /t:PublishContainer` and push it to `ghcr.io/rimkahan888/nba-player-hub`, tagged `latest` and with the commit SHA.
+3. `deploy`: `railway redeploy` with the `RAILWAY_TOKEN` secret. If the secret isn't set, this step only warns.
+4. On Railway, the pre-deploy command (`dotnet /app/NbaHub.Web.dll --migrate --seed`) applies migrations and loads the seed files. If it fails, the release is cancelled.
+5. Later: smoke test `/health` on the live URL once the new deployment is live.
+
+**Railway service settings:**
+
+| Setting | Value |
+| --- | --- |
+| Source | Docker image `ghcr.io/rimkahan888/nba-player-hub:latest` |
+| Pre-deploy command | `dotnet /app/NbaHub.Web.dll --migrate --seed` |
+| Healthcheck path | `/health` |
+| Port | 8080 |
+| `ConnectionStrings__NbaHub` | `Host=${{Postgres.PGHOST}};Port=${{Postgres.PGPORT}};Database=${{Postgres.PGDATABASE}};Username=${{Postgres.PGUSER}};Password=${{Postgres.PGPASSWORD}}` |
+| `ASPNETCORE_FORWARDEDHEADERS_ENABLED` | `true` |
+
+**Known limitation:** ASP.NET Core data protection keys live inside the container, so each deploy creates new ones. A browser tab left open across a deploy has to refresh. Persisting the keys to PostgreSQL fixes this, and is worth doing before admin login arrives.
 
 **Configuration and secrets:** the balldontlie API key, database connection string and admin credentials live in GitHub Actions secrets and the host's secret store, never in the repo. Locally they live in `dotnet user-secrets`.
 
@@ -206,6 +219,6 @@ See [`docs/adr`](adr/) for the full records.
 **Open questions:**
 
 - [ ] Stats for version 1: seeded snapshot only, or pay for ALL-STAR from the start?
-- [ ] Fly.io or Railway, after comparing current pricing and Postgres options?
+- [x] Fly.io or Railway? Railway (ADR 0008).
 - [ ] Which object storage for art?
 - [ ] Final app name.
