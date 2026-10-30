@@ -70,6 +70,9 @@ dotnet build NbaHub.slnx
 dotnet test NbaHub.slnx
 dotnet run --project src/NbaHub.Web        # http://localhost:5080, health at /health
 dotnet format NbaHub.slnx                  # fix formatting
+dotnet tool restore                        # installs dotnet-ef from dotnet-tools.json
+dotnet ef migrations add <Name> --project src/NbaHub.Infrastructure --startup-project src/NbaHub.Web --output-dir Persistence/Migrations
+dotnet ef database update --project src/NbaHub.Infrastructure --startup-project src/NbaHub.Web
 ```
 
 ## Working style
@@ -88,12 +91,12 @@ Done:
 - `/health` endpoint with an integration test
 - GitHub Actions CI building and testing on every push
 - Blazor Web App (auto render mode) in `NbaHub.Web` with `NbaHub.Web.Client`; template Counter page kept as an interactivity smoke test until real pages exist
+- EF Core + Npgsql with `Team` and `Player` entities, `NbaHubDbContext` and the `InitialCreate` migration; a model test fails if a migration is missing
 
 Next (thin slice: one player, end to end, deployed):
 
-1. Add EF Core + Npgsql, the `Team` and `Player` entities, a `DbContext` and the first migration.
-2. Add a `seed/players.json` with one player and an importer that loads it.
-3. Add `GET /api/players/{slug}` and a profile page showing one player with placeholder art.
-4. Add Testcontainers PostgreSQL integration tests for the endpoint.
-5. Containerise with `dotnet publish /t:PublishContainer` and deploy to Fly.io or Railway; add the deploy job to CI.
-6. Add `dotnet format --verify-no-changes` to CI.
+1. Add a `seed/players.json` with one player and an importer that loads it.
+2. Add `GET /api/players/{slug}` and a profile page showing one player with placeholder art.
+3. Add Testcontainers PostgreSQL integration tests for the endpoint.
+4. Containerise with `dotnet publish /t:PublishContainer` and deploy to Fly.io or Railway; add the deploy job to CI.
+5. Add `dotnet format --verify-no-changes` to CI.

@@ -17,6 +17,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/NbaHub.Domain.Tests/NbaHub.Domain.Tests.csproj" />
+    <Project Path="tests/NbaHub.Infrastructure.Tests/NbaHub.Infrastructure.Tests.csproj" />
     <Project Path="tests/NbaHub.Web.IntegrationTests/NbaHub.Web.IntegrationTests.csproj" />
   </Folder>
 </Solution>

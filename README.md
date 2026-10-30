@@ -4,7 +4,7 @@
 
 A visual NBA player hub built around original player artwork, with each player's bio, stats and contract one tap away. Built with .NET 10, ASP.NET Core and Blazor.
 
-> **Status:** early development. The solution skeleton, domain logic, CI and the Blazor Web App shell are in place; the first end-to-end slice (one player profile, deployed) is next.
+> **Status:** early development. The solution skeleton, domain logic, CI, the Blazor Web App shell and the first database migration (teams and players) are in place; the first end-to-end slice (one player profile, deployed) is next.
 
 <!-- Screenshot or GIF goes here once the gallery exists. -->
 
@@ -48,19 +48,40 @@ src/
   NbaHub.Web.Client/      Interactive WebAssembly components (auto render mode)
 tests/
   NbaHub.Domain.Tests/
+  NbaHub.Infrastructure.Tests/
   NbaHub.Web.IntegrationTests/
 docs/                     Brief, technical design, ADRs, ideas backlog
 ```
 
 ## Getting started
 
-Prerequisites: [.NET 10 SDK](https://dotnet.microsoft.com/download). Docker will be needed once the database is added.
+Prerequisites: [.NET 10 SDK](https://dotnet.microsoft.com/download) and [Docker](https://www.docker.com/) for a local PostgreSQL.
 
 ```bash
 git clone https://github.com/rimkahan888/nba-player-hub.git
 cd nba-player-hub
 dotnet build NbaHub.slnx
 dotnet test NbaHub.slnx
+```
+
+The tests don't need a database. To run the app against one:
+
+```bash
+# 1. Start PostgreSQL (choose your own local password)
+docker run -d --name nbahub-db -p 5432:5432 \
+  -e POSTGRES_DB=nbahub -e POSTGRES_PASSWORD=<local-password> \
+  -v nbahub-data:/var/lib/postgresql/data postgres:17-alpine
+
+# 2. Store the connection string in user secrets (never in appsettings)
+dotnet user-secrets set ConnectionStrings:NbaHub \
+  "Host=localhost;Port=5432;Database=nbahub;Username=postgres;Password=<local-password>" \
+  --project src/NbaHub.Web
+
+# 3. Create the tables
+dotnet tool restore
+dotnet ef database update --project src/NbaHub.Infrastructure --startup-project src/NbaHub.Web
+
+# 4. Run the app
 dotnet run --project src/NbaHub.Web
 ```
 
