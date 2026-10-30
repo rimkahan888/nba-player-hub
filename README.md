@@ -4,7 +4,7 @@
 
 A visual NBA player hub built around original player artwork, with each player's bio, stats and contract one tap away. Built with .NET 10, ASP.NET Core and Blazor.
 
-> **Status:** early development. The solution skeleton, domain logic and CI are in place; the first end-to-end slice (one player profile, deployed) is next.
+> **Status:** early development. The solution skeleton, domain logic, CI and the Blazor Web App shell are in place; the first end-to-end slice (one player profile, deployed) is next.
 
 <!-- Screenshot or GIF goes here once the gallery exists. -->
 
@@ -45,6 +45,7 @@ src/
   NbaHub.Application/     Use cases and interfaces
   NbaHub.Infrastructure/  EF Core, balldontlie client, importers, storage
   NbaHub.Web/             Host: Blazor app, minimal API, background sync
+  NbaHub.Web.Client/      Interactive WebAssembly components (auto render mode)
 tests/
   NbaHub.Domain.Tests/
   NbaHub.Web.IntegrationTests/
