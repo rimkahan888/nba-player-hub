@@ -1,0 +1,107 @@
+@page "/players/{Slug}"
+@using System.Globalization
+@using NbaHub.Application.Players
+@using NbaHub.Contracts.Players
+@inject PlayerProfileQuery Query
+@inject NavigationManager Navigation
+
+@* Read-only page, so it is server-rendered without interactivity: fast first load and readable by search engines. *@
+
+@if (_profile is { } p)
+{
+    <PageTitle>@p.FullName · NBA Player Hub</PageTitle>
+
+    <article class="profile" style="--team-colour: @(p.Team?.PrimaryColour ?? DefaultColour)">
+        <div class="art">
+            @if (p.ArtImageUrl is not null)
+            {
+                <img src="@p.ArtImageUrl" alt="Artwork of @p.FullName" />
+            }
+            else
+            {
+                <div class="art-placeholder" role="img" aria-label="Artwork of @p.FullName coming soon">
+                    <span aria-hidden="true">@Initials(p)</span>
+                </div>
+            }
+        </div>
+
+        <div class="details">
+            <h1>@p.FullName</h1>
+            <p class="subtitle">
+                @if (p.Team is not null)
+                {
+                    <span>@p.Team.FullName</span>
+                }
+                else
+                {
+                    <span>Free agent</span>
+                }
+                @if (p.JerseyNumber is not null)
+                {
+                    <span> · #@p.JerseyNumber</span>
+                }
+                @if (p.Position is not null)
+                {
+                    <span> · @p.Position</span>
+                }
+            </p>
+
+            <dl class="bio">
+                @if (p.Height is not null)
+                {
+                    <dt>Height</dt>
+                    <dd>@p.Height.Display (@p.Height.Centimetres.ToString("0.#", CultureInfo.InvariantCulture) cm)</dd>
+                }
+                @if (p.WeightLbs is not null)
+                {
+                    <dt>Weight</dt>
+                    <dd>@p.WeightLbs lbs</dd>
+                }
+                @if (p.Age is not null)
+                {
+                    <dt>Age</dt>
+                    <dd>@p.Age (born @p.BirthDate?.ToString("d MMMM yyyy", CultureInfo.InvariantCulture))</dd>
+                }
+                @if (p.Country is not null)
+                {
+                    <dt>Country</dt>
+                    <dd>@p.Country</dd>
+                }
+                @if (p.College is not null)
+                {
+                    <dt>College</dt>
+                    <dd>@p.College</dd>
+                }
+                <dt>Draft</dt>
+                <dd>@DraftText(p.Draft)</dd>
+            </dl>
+        </div>
+    </article>
+}
+
+@code {
+    private const string DefaultColour = "#4B5563";
+
+    private PlayerProfileDto? _profile;
+
+    [Parameter]
+    public string Slug { get; set; } = string.Empty;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _profile = await Query.GetBySlugAsync(Slug, CancellationToken.None);
+        if (_profile is null)
+        {
+            Navigation.NotFound();
+        }
+    }
+
+    private static string Initials(PlayerProfileDto p) => $"{p.FirstName[0]}{p.LastName[0]}";
+
+    private static string DraftText(DraftDto? draft) => draft switch
+    {
+        null => "Undrafted",
+        { Round: { } round, Pick: { } pick } => $"{draft.Year}, round {round}, pick {pick}",
+        _ => $"{draft.Year}",
+    };
+}

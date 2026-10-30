@@ -1,0 +1,59 @@
+.profile {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+    max-width: 960px;
+    margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .profile {
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+        align-items: start;
+    }
+}
+
+.art img,
+.art-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.art-placeholder {
+    display: grid;
+    place-items: center;
+    background: linear-gradient(160deg, var(--team-colour), #111827);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: clamp(3rem, 12vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.details h1 {
+    margin-bottom: 0.25rem;
+}
+
+.subtitle {
+    color: #4b5563;
+    font-size: 1.1rem;
+    border-left: 4px solid var(--team-colour);
+    padding-left: 0.75rem;
+}
+
+.bio {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.bio dt {
+    font-weight: 600;
+    color: #374151;
+}
+
+.bio dd {
+    margin: 0;
+}

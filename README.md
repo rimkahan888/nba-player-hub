@@ -4,14 +4,14 @@
 
 A visual NBA player hub built around original player artwork, with each player's bio, stats and contract one tap away. Built with .NET 10, ASP.NET Core and Blazor.
 
-> **Status:** early development. The solution skeleton, domain logic, CI, the Blazor Web App shell and the first database migration and a seed import with one player are in place; the first end-to-end slice (one player profile, deployed) is next.
+> **Status:** early development. The solution skeleton, domain logic, CI, the Blazor Web App shell and a seed import and the first player profile (API and page) are in place; the first end-to-end slice (one player profile, deployed) is next.
 
 <!-- Screenshot or GIF goes here once the gallery exists. -->
 
 ## Features (version 1)
 
 - [ ] Player gallery of original artwork, filterable by team and position
-- [ ] Player profiles: bio, height, age, draft details
+- [x] Player profiles: bio, height, age, draft details (one seeded player so far)
 - [ ] Current season stats
 - [ ] Contract and salary details, with team payroll totals
 - [ ] Admin-only art upload
@@ -47,6 +47,7 @@ src/
   NbaHub.Web/             Host: Blazor app, minimal API, background sync
   NbaHub.Web.Client/      Interactive WebAssembly components (auto render mode)
 tests/
+  NbaHub.Application.Tests/
   NbaHub.Domain.Tests/
   NbaHub.Infrastructure.Tests/
   NbaHub.Web.IntegrationTests/
@@ -65,7 +66,7 @@ dotnet build NbaHub.slnx
 dotnet test NbaHub.slnx
 ```
 
-Most tests need nothing else. The importer tests start PostgreSQL in Docker through Testcontainers, so Docker must be running.
+Docker must be running: the importer and endpoint tests start PostgreSQL in Docker through Testcontainers.
 
 To run the app against a database:
 
@@ -91,7 +92,7 @@ dotnet run --project src/NbaHub.Web -- --seed
 dotnet run --project src/NbaHub.Web
 ```
 
-The app runs at http://localhost:5080, with a health check at `/health`.
+The app runs at http://localhost:5080, with a health check at `/health`. The first profile is at http://localhost:5080/players/luka-doncic, and its API data at `/api/players/luka-doncic`.
 
 ## What I learned
 
