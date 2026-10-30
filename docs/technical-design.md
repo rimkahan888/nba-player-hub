@@ -73,7 +73,14 @@ Seven tables in PostgreSQL. Every synced row keeps the source's ID in `ExternalI
 | Artwork | Id, PlayerId, ImageUrl, ThumbnailUrl, AltText, IsPrimary, Width, Height, UploadedAt | Belongs to Player |
 | SyncRun | Id, Source, StartedAt, FinishedAt, Status, RecordsUpdated, Error | None (audit log) |
 
+**Built so far:** `Team` and `Player`, in the `InitialCreate` migration. The other five tables arrive with the features that need them.
+
 **Design notes:**
+
+- Domain entities have no EF Core dependency. Mapping lives in `IEntityTypeConfiguration<T>` classes in `NbaHub.Infrastructure/Persistence/Configurations`.
+- `Player.Height` is the `Height` value object in the domain and a `HeightInches` integer column in the database.
+- `Player.Slug` is built from the name with accents removed (Dončić becomes `luka-doncic`) and has a unique index. `ExternalId` columns have unique indexes, which allow many nulls for seeded rows.
+- Deleting a team sets its players' `TeamId` to null instead of deleting them.
 
 - Money is stored as `decimal` in whole US dollars and wrapped in a `Money` value object in the domain.
 - Team payroll is calculated (sum of ContractYear salaries for the season), not stored, so it can't drift.
