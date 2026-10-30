@@ -1,0 +1,22 @@
+{
+  "asOf": "2026-10-30",
+  "players": [
+    {
+      "firstName": "Luka",
+      "lastName": "Dončić",
+      "team": "LAL",
+      "position": "G",
+      "height": "6-6",
+      "weightLbs": 230,
+      "jerseyNumber": "77",
+      "college": null,
+      "country": "Slovenia",
+      "draftYear": 2018,
+      "draftRound": 1,
+      "draftPick": 3,
+      "birthDate": "1999-02-28",
+      "isActive": true,
+      "externalId": 132
+    }
+  ]
+}

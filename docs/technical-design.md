@@ -112,6 +112,13 @@ Source: [balldontlie docs](https://docs.balldontlie.io/).
 | Contracts and salaries | `seed/contracts.csv`, maintained by me | When contracts change |
 | Artwork | My uploads through the admin page | Ongoing |
 
+**Seed import (built):**
+
+- `seed/teams.json` and `seed/players.json` hold the hand-maintained data. Until the sync exists, they also carry each seeded player's full bio and team. See `seed/README.md` for the format.
+- `ISeedImporter` (Application) is implemented by `SeedImporter` (Infrastructure). It checks the files first: required fields, known team, height format and no duplicates. Then it upserts teams by abbreviation and players by slug, in one transaction.
+- Run it with `dotnet run --project src/NbaHub.Web -- --seed`. A second run with unchanged files changes nothing. The nightly sync will call the same importer later.
+- The build copies the seed files next to the app, so the command also works inside the container.
+
 **Sync design:**
 
 - A `BackgroundService` runs the nightly sync. It can also be triggered from the admin API.

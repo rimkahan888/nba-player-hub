@@ -1,3 +1,4 @@
+using NbaHub.Application.Seeding;
 using NbaHub.Infrastructure;
 using NbaHub.Web.Components;
 
@@ -34,6 +35,15 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(NbaHub.Web.Client._Imports).Assembly);
+
+// `dotnet run --project src/NbaHub.Web -- --seed` loads the seed files into the database and exits.
+if (args.Contains("--seed"))
+{
+    await using var scope = app.Services.CreateAsyncScope();
+    var result = await scope.ServiceProvider.GetRequiredService<ISeedImporter>().ImportAsync(CancellationToken.None);
+    app.Logger.LogInformation("Seed import finished: {Result}", result);
+    return;
+}
 
 app.Run();
 

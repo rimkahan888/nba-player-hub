@@ -1,0 +1,14 @@
+{
+  "asOf": "2026-10-30",
+  "teams": [
+    {
+      "abbreviation": "LAL",
+      "city": "Los Angeles",
+      "name": "Lakers",
+      "conference": "West",
+      "division": "Pacific",
+      "primaryColour": "#552583",
+      "externalId": 14
+    }
+  ]
+}

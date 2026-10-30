@@ -13,6 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Ship the repository's seed files with the app so the seed command works locally and in the container. -->
+    <None Include="..\..\seed\*.json" Link="seed\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NbaHub.Application\NbaHub.Application.csproj" />
     <ProjectReference Include="..\NbaHub.Infrastructure\NbaHub.Infrastructure.csproj" />
     <ProjectReference Include="..\NbaHub.Web.Client\NbaHub.Web.Client.csproj" />
