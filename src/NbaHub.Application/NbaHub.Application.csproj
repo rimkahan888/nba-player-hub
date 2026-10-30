@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NbaHub.Application.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NbaHub.Domain\NbaHub.Domain.csproj" />
     <ProjectReference Include="..\NbaHub.Contracts\NbaHub.Contracts.csproj" />
   </ItemGroup>

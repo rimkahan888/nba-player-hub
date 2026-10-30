@@ -144,6 +144,10 @@ Minimal API route groups under `/api`, returning `TypedResults` and documented w
 | POST | `/api/admin/sync` | Run the data sync now (admin) |
 | GET | `/health` | Health check for the host |
 
+**Built so far:** `GET /api/players/{slug}` returns `PlayerProfileDto` (bio, team, height, age, draft; `artImageUrl` is null until uploads exist), or 404. Slugs are matched case-insensitively. Stats and contract fields will be added with their seed data.
+
+**How a request flows:** the endpoint and the `/players/{slug}` page both call `PlayerProfileQuery` (Application). It loads the player through `IPlayerRepository` (EF Core in Infrastructure) and works out age from an injected `TimeProvider`, so tests can fix the date. The profile page is server-rendered without interactivity: it is read-only, so it needs no WebAssembly, loads fast and is readable by search engines. Interactive pages, such as the gallery filters, will use auto render mode and call the API.
+
 **Admin auth:** a single admin account using cookie authentication, with credentials from configuration secrets. Full ASP.NET Core Identity would be overkill until public accounts arrive with the trading cards module.
 
 **Caching:** output caching on the public GET routes, cleared when a sync or upload finishes.

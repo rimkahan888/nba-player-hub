@@ -1,6 +1,8 @@
+using NbaHub.Application;
 using NbaHub.Application.Seeding;
 using NbaHub.Infrastructure;
 using NbaHub.Web.Components;
+using NbaHub.Web.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddHealthChecks();
 
@@ -29,6 +32,7 @@ app.UseHttpsRedirection();
 app.UseAntiforgery();
 
 app.MapHealthChecks("/health");
+app.MapPlayerEndpoints();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
