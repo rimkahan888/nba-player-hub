@@ -90,7 +90,7 @@ Done:
 - Solution skeleton with Domain, Contracts, Application, Infrastructure and Web projects
 - `Height` and `PlayerAge` domain logic with unit tests
 - `/health` endpoint with an integration test
-- GitHub Actions CI building and testing on every push
+- GitHub Actions CI building, checking formatting (`dotnet format --verify-no-changes`) and testing on every push
 - Blazor Web App (auto render mode) in `NbaHub.Web` with `NbaHub.Web.Client`; template Counter page kept as an interactivity smoke test until real pages exist
 - EF Core + Npgsql with `Team` and `Player` entities, `NbaHubDbContext` and the `InitialCreate` migration; a model test fails if a migration is missing
 - `seed/teams.json` and `seed/players.json` (Luka Dončić, Lakers) with `ISeedImporter`, run by `--seed`; importer tests use Testcontainers PostgreSQL via `PostgresFixture` in `NbaHub.Infrastructure.Tests`
@@ -99,4 +99,3 @@ Done:
 Next (thin slice: one player, end to end, deployed):
 
 1. Containerise with `dotnet publish /t:PublishContainer` and deploy to Fly.io or Railway; add the deploy job to CI.
-2. Add `dotnet format --verify-no-changes` to CI.

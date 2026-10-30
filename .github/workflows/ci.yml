@@ -32,6 +32,10 @@ jobs:
       - name: Restore
         run: dotnet restore NbaHub.slnx
 
+      # Fails when code doesn't match .editorconfig. Fix locally with: dotnet format NbaHub.slnx
+      - name: Check formatting
+        run: dotnet format NbaHub.slnx --verify-no-changes --no-restore --verbosity minimal
+
       - name: Build
         run: dotnet build NbaHub.slnx --configuration Release --no-restore
 
